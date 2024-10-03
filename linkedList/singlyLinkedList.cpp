@@ -26,13 +26,19 @@ public:
     void addAt(int d,int at);
     void deleteAt(int at);
     int size();
+    bool isEmpty();
     void readData(int n);
+    void reverseList();
     void printList();
 };
 
 
 int linkedList::size(){
     return sz;
+}
+
+bool linkedList::isEmpty(){
+    return head==nullptr;
 }
 
 void linkedList::push(int d){
@@ -102,7 +108,18 @@ void linkedList::readData(int n){
     while(n-- && cin >> a ) push(a);
 }
 
+void linkedList::reverseList(){
+    Node *at=head,*pre=nullptr,*nxt = head;
 
+    while (nxt != nullptr)
+    {
+        nxt = nxt->next;
+        at->next = pre;
+        pre = at;
+        at = nxt;
+    }
+    head = pre;
+}
 
 int main(){
     freopen("input.txt","r",stdin);
@@ -116,6 +133,8 @@ int main(){
     list.addAt(10,3);
     list.printList();
     list.deleteAt(4);
+    list.printList();
+    list.reverseList();
     list.printList();
 
     return 0;

@@ -18,7 +18,7 @@ public:
 class linkedList
 {
 private:
-    int sz = 0;
+    int listSize = 0;
     Node *head = nullptr;
     Node *tail = nullptr;
 public:
@@ -34,7 +34,7 @@ public:
 
 
 int linkedList::size(){
-    return sz;
+    return listSize;
 }
 
 bool linkedList::isEmpty(){
@@ -44,23 +44,24 @@ bool linkedList::isEmpty(){
 void linkedList::push(int d){
     // head is address
     // *head is the data at that address
+    
+    listSize++;
     if(head == nullptr) {
         head = new Node(d);
         tail = head;
-        sz++;
         return;
     }
 
     tail->next = new Node(d);
     tail = tail->next;
-    sz++;
 }
 
 void linkedList::addAt(int d,int at){
-    if(at < 0 || at>sz ){
+    if(at < 0 || at>listSize ){
         cout << "invalid index\n";
         return;
     }
+    listSize++;
     Node *tem = head,*right;
     if(at == 0){
         head = new Node(d);
@@ -74,14 +75,26 @@ void linkedList::addAt(int d,int at){
 }
 
 void linkedList::deleteAt(int at){
-    Node *tem = head,*terget;
-    if(sz == 0 || head == nullptr){
+    if(at < 0 || at >= listSize){
+        cout << "invalid index\n";
+        return;
+    }
+    if(listSize == 0 || head == nullptr){
         cout << "There is no data to delete\n";
         return;
     }
+    listSize--;
+    Node *tem = head,*terget;
     if(at == 0){
         head = tem->next;
         delete tem;
+    }
+    if (at == listSize){
+        repti(0,at-1)tem = tem->next;
+        delete tem->next;
+        tem->next = nullptr;
+        tail = tem;
+        return;
     }
     repti(0,at-1)tem = tem->next;
     terget = tem->next;
@@ -122,7 +135,7 @@ void linkedList::reverseList(){
 }
 
 int main(){
-    freopen("input.txt","r",stdin);
+    freopen("listData.txt","r",stdin);
 
     int n;
     linkedList list = linkedList();
@@ -132,7 +145,9 @@ int main(){
     list.printList();
     list.addAt(10,3);
     list.printList();
-    list.deleteAt(4);
+    list.deleteAt(5);
+    list.printList();
+    list.push(15);
     list.printList();
     list.reverseList();
     list.printList();

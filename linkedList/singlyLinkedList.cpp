@@ -29,7 +29,10 @@ public:
     bool isEmpty();
     void readData(int n);
     void reverseList();
+    linkedList sortList();
     void printList();
+    Node* getHead(){return head;}
+    void sort_push(int d);
 };
 
 
@@ -54,6 +57,25 @@ void linkedList::push(int d){
 
     tail->next = new Node(d);
     tail = tail->next;
+}
+
+void linkedList::sort_push(int d){
+    if(head == nullptr){
+        head = new Node(d);
+        return;
+    }
+    Node *tem = head,*prev = nullptr;
+    while(tem != nullptr && tem->data < d){
+        prev = tem;
+        tem = tem->next;
+    }
+    if(prev != nullptr) {
+        prev->next = new Node(d);
+        prev->next->next = tem;
+    }else{
+        head = new Node(d);
+        head->next = tem;
+    }
 }
 
 void linkedList::addAt(int d,int at){
@@ -134,6 +156,17 @@ void linkedList::reverseList(){
     head = pre;
 }
 
+linkedList linkedList::sortList(){
+    linkedList sortedList = linkedList();
+    Node *tem = head;
+    while (tem != nullptr)
+    {
+        sortedList.sort_push(tem->data);
+        tem = tem->next;
+    }
+    return sortedList;
+}
+
 int main(){
     freopen("listData.txt","r",stdin);
 
@@ -151,6 +184,8 @@ int main(){
     list.printList();
     list.reverseList();
     list.printList();
+    linkedList list2 = list.sortList();
+    list2.printList();
 
     return 0;
 }

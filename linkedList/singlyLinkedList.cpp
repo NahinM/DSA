@@ -31,7 +31,6 @@ public:
     void reverseList();
     linkedList sortList();
     void printList();
-    Node* getHead(){return head;}
     void sort_push(int d);
 };
 
